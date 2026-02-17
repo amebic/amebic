@@ -1,0 +1,16 @@
+{
+  "name": "amebic",
+  "private": true,
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "build": "bun run --filter '*' build",
+    "dev": "bun run --filter @amebic/preview dev",
+    "render": "bun run --filter @amebic/cli render"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
