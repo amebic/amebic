@@ -6,9 +6,9 @@
 import { chromium } from "playwright";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createElement } from "react";
-import { mkdir, writeFile } from "fs/promises";
+import { mkdir } from "fs/promises";
 import { dirname, join } from "path";
-import type { OutputConfig, OutputFormat, RenderOptions } from "./types.js";
+import type { OutputFormat, RenderOptions } from "./types.js";
 import { Composition } from "./Composition.js";
 import type { CompositionMeta } from "./types.js";
 

@@ -14,7 +14,6 @@ export {
   getSet,
   getAllSets,
 } from "./registry.js";
-export { renderComposition } from "./render.js";
 export type {
   OutputConfig,
   OutputFormat,

@@ -1,0 +1,18 @@
+{
+  "name": "@amebic/templates",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./compositions": "./src/compositions/index.ts"
+  },
+  "dependencies": {
+    "@amebic/core": "workspace:*",
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "typescript": "^5.7.2"
+  }
+}
