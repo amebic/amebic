@@ -26,6 +26,7 @@ npm-debug.log*
 
 # Rendered outputs (user-generated)
 output/
+test-output/
 *.png
 !packages/templates/**/*.png
 
