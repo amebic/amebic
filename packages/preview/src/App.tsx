@@ -11,6 +11,7 @@ import {
 } from "@amebic/core";
 /** Import to trigger composition registration */
 import "@amebic/templates";
+import "@amebic/examples";
 import styles from "./App.module.css";
 
 /** Load compositions by importing templates (side effect registers them) */

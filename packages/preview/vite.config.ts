@@ -8,6 +8,7 @@ export default defineConfig({
     alias: {
       "@amebic/core": path.resolve(__dirname, "../core/src"),
       "@amebic/templates": path.resolve(__dirname, "../templates/src"),
+      "@amebic/examples": path.resolve(__dirname, "../examples/src"),
     },
   },
   server: {

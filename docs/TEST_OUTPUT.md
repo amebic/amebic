@@ -24,6 +24,7 @@ bun run render Creative --set --out-dir ./test-output
 
 - **ProductBranding**: SocialCard, AppIcon
 - **Creative**: GradientHero, Badge, PodcastCover, NeonCard
+- **TransparencyExamples**: TransparentWatermark, TransparentOverlay, GlassBadge (from @amebic/examples)
 
 ## Sample Test Run
 

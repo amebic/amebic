@@ -12,6 +12,7 @@ import {
   getAllSets,
 } from "@amebic/core";
 import "@amebic/templates";
+import "@amebic/examples";
 import { resolve } from "path";
 import { readFile } from "fs/promises";
 

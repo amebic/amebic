@@ -19,7 +19,8 @@
     "baseUrl": ".",
     "paths": {
       "@amebic/core": ["../core/src"],
-      "@amebic/templates": ["../templates/src"]
+      "@amebic/templates": ["../templates/src"],
+      "@amebic/examples": ["../examples/src"]
     }
   },
   "include": ["src"]

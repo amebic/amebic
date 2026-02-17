@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@amebic/core": "workspace:*",
-    "@amebic/templates": "workspace:*"
+    "@amebic/templates": "workspace:*",
+    "@amebic/examples": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

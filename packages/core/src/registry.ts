@@ -13,6 +13,15 @@ const compositions = new Map<string, CompositionMeta>();
 const sets = new Map<string, string[]>();
 
 /**
+ * Reset registry (for testing only).
+ * @internal
+ */
+export function _resetRegistry(): void {
+  compositions.clear();
+  sets.clear();
+}
+
+/**
  * Register a composition for preview and rendering.
  *
  * @param component - The React component (composition)

@@ -46,7 +46,16 @@ bunx playwright install chromium
 | `@amebic/core` | Composition API, registry, render (Node) |
 | `@amebic/preview` | Vite + React preview UI |
 | `@amebic/cli` | CLI for `render` and `list` |
-| `@amebic/templates` | Example compositions (SocialCard, AppIcon) |
+| `@amebic/templates` | Published compositions (SocialCard, AppIcon, etc.) |
+| `@amebic/examples` | Experimental compositions (transparency, overlays) |
+
+## Testing
+
+```bash
+bun run test
+```
+
+Runs Vitest for core, templates, and examples (unit + integration).
 
 ## Creating a Composition
 

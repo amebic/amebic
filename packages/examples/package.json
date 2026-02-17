@@ -1,11 +1,10 @@
 {
-  "name": "@amebic/templates",
+  "name": "@amebic/examples",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./compositions": "./src/compositions/index.ts"
+    ".": "./src/index.ts"
   },
   "scripts": {
     "test": "vitest run"

@@ -5,6 +5,7 @@
   "scripts": {
     "build": "bun run --filter '*' build",
     "dev": "bun run --filter @amebic/preview dev",
+    "test": "bun run --filter '@amebic/core' test && bun run --filter '@amebic/templates' test && bun run --filter '@amebic/examples' test",
     "render": "bun run packages/cli/dist/cli.js render",
     "list": "bun run packages/cli/dist/cli.js list"
   },
