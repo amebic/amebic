@@ -1,0 +1,137 @@
+# API Reference
+
+## @amebic/core
+
+### Hooks
+
+#### `useComposition()`
+
+Returns context about the current render:
+
+```ts
+const { width, height, outputName } = useComposition();
+```
+
+**Returns:** `CompositionContextValue`
+- `width: number` — Viewport width in pixels
+- `height: number` — Viewport height in pixels  
+- `outputName: string` — Name of current output
+
+### Registration
+
+#### `registerComposition(component, config)`
+
+Register a composition for rendering.
+
+```ts
+registerComposition(MyComponent, {
+  defaultProps: { title: "Hello" },
+  outputs: [
+    { name: "og", width: 1200, height: 630 },
+  ],
+});
+```
+
+#### `registerSet(id, compositionIds)`
+
+Register a set of compositions.
+
+```ts
+registerSet("ProductBranding", ["SocialCard", "AppIcon"]);
+```
+
+### Registry Queries
+
+#### `getComposition(id)`
+
+Get metadata for a registered composition.
+
+```ts
+const meta = getComposition("SocialCard");
+// Returns: CompositionMeta | undefined
+```
+
+#### `getAllCompositions()`
+
+Get all registered compositions.
+
+```ts
+const compositions = getAllCompositions();
+// Returns: CompositionMeta[]
+```
+
+#### `getSet(id)`
+
+Get composition IDs in a set.
+
+```ts
+const ids = getSet("ProductBranding");
+// Returns: string[] | undefined
+```
+
+#### `getAllSets()`
+
+Get all registered sets.
+
+```ts
+const sets = getAllSets();
+// Returns: Map<string, string[]>
+```
+
+## @amebic/core/render
+
+### `renderComposition(meta, props, options)`
+
+Programmatically render a composition.
+
+```ts
+import { renderComposition } from "@amebic/core/render";
+
+const files = await renderComposition(meta, props, {
+  outDir: "./output",
+  format: "png",
+  omitBackground: true,
+});
+```
+
+**Parameters:**
+- `meta: CompositionMeta` — Composition metadata
+- `props: Record<string, unknown>` — Props to pass to component
+- `options: RenderOptions` — Render options
+
+**Returns:** `Promise<string[]>` — Array of written file paths
+
+### Types
+
+#### `RenderOptions`
+
+```ts
+interface RenderOptions {
+  outDir: string;
+  format?: "png" | "webp" | "jpeg";
+  omitBackground?: boolean;
+  styles?: string[];
+}
+```
+
+#### `CompositionConfig`
+
+```ts
+interface CompositionConfig<Props = Record<string, unknown>> {
+  defaultProps?: Props;
+  defaultDimensions?: { width: number; height: number };
+  outputs?: OutputConfig[];
+  fonts?: string[];
+}
+```
+
+#### `OutputConfig`
+
+```ts
+interface OutputConfig {
+  name: string;
+  width: number;
+  height: number;
+  format?: "png" | "webp" | "jpeg" | "svg";
+}
+```

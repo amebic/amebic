@@ -1,0 +1,78 @@
+# CLI Usage
+
+The Amebic CLI provides commands for listing and rendering compositions.
+
+## Installation
+
+```bash
+bunx playwright install chromium
+```
+
+## Commands
+
+### List
+
+List all registered compositions and sets:
+
+```bash
+bun run list
+```
+
+Output:
+```
+Compositions:
+  SocialCard (2 outputs)
+    - og: 1200×630 (png)
+    - twitter: 1200×630 (png)
+  AppIcon (8 outputs)
+    - favicon-16: 16×16 (png)
+    - favicon-32: 32×32 (png)
+    ...
+
+Sets:
+  ProductBranding: SocialCard, AppIcon
+```
+
+### Render
+
+Render a composition (all outputs):
+
+```bash
+bun run render AppIcon --out-dir ./output
+```
+
+Render a set (all compositions in the set):
+
+```bash
+bun run render ProductBranding --set --out-dir ./output
+```
+
+With custom props:
+
+```bash
+bun run render SocialCard --out-dir ./output --props ./props.json
+```
+
+## Options
+
+| Option | Description |
+|--------|-------------|
+| `--out-dir, -o` | Output directory (default: `./output`) |
+| `--props` | Path to JSON file with custom props |
+| `--format, -f` | Override output format (`png`, `webp`, `jpeg`) |
+| `--set, -s` | Render a set instead of a composition |
+
+## Output Layout
+
+Files are written to `{outDir}/{compositionId}/{outputName}.{ext}`:
+
+```
+output/
+├── SocialCard/
+│   ├── og.png
+│   └── twitter.png
+└── AppIcon/
+    ├── favicon-16.png
+    ├── favicon-32.png
+    └── ...
+```

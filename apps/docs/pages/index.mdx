@@ -1,0 +1,63 @@
+import { Hero } from '../components/Hero'
+
+# Amebic
+
+**React compositions for still graphics.** One component, many outputs.
+
+Inspired by the composition model of tools like ReMotion, Amebic lets you define graphics as React components and render them to multiple image formats and sizes.
+
+## Quick Start
+
+```bash
+# Install dependencies
+bun install
+
+# Build all packages
+bun run build
+
+# Start the preview UI
+bun run dev
+```
+
+## What is Amebic?
+
+Amebic is a toolkit for generating still graphics using React. Instead of creating separate files for every image size and format, you:
+
+1. **Define** your graphic as a React component
+2. **Register** it with output configurations  
+3. **Render** to any format (PNG, WebP, JPEG, SVG)
+
+```tsx
+import { useComposition, registerComposition } from "@amebic/core";
+
+export const MyGraphic: React.FC<{ title: string }> = (props) => {
+  const { width, height, outputName } = useComposition();
+  return (
+    <div style={{ width, height, background: "#333", color: "#fff" }}>
+      {props.title}
+    </div>
+  );
+};
+
+registerComposition(MyGraphic, {
+  defaultProps: { title: "Hello" },
+  outputs: [
+    { name: "og", width: 1200, height: 630 },
+    { name: "thumb", width: 400, height: 400 },
+  ],
+});
+```
+
+## Features
+
+- **Multi-output rendering** — One composition → many sizes/formats
+- **Live preview** — Vite-based preview UI with hot reload
+- **CLI interface** — Batch render compositions from command line
+- **Type-safe** — Full TypeScript support
+- **Programmatic API** — Use in Node.js scripts
+
+## Next Steps
+
+- [Creating Compositions](/creating-compositions)
+- [CLI Usage](/cli)
+- [API Reference](/api-reference)
