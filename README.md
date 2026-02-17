@@ -2,7 +2,15 @@
 
 ![amebic](branding/output/Banner/readme.png)
 
-**ReMotion for still graphics.** One React composition → many still outputs in different formats.
+**React compositions for still graphics.** One component, many outputs.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![Tests](https://img.shields.io/badge/tests-vitest-green)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue)
+
+![Preview UI](assets/preview-ui.png)
+
+*The Amebic preview UI - edit compositions in real-time*
 
 ## Quick Start
 
@@ -84,3 +92,7 @@ registerComposition(MyGraphic, {
 ```
 
 Import your composition (e.g. in `@amebic/templates`) to register it for preview and render.
+
+---
+
+*Amebic is inspired by the composition model of [ReMotion](https://www.remotion.dev/).*
