@@ -11,7 +11,8 @@
   "dependencies": {
     "@amebic/core": "workspace:*",
     "@amebic/templates": "workspace:*",
-    "@amebic/examples": "workspace:*"
+    "@amebic/examples": "workspace:*",
+    "@amebic/branding": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

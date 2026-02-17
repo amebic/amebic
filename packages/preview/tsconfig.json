@@ -18,9 +18,11 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
+      "@/*": ["./src/*"],
       "@amebic/core": ["../core/src"],
       "@amebic/templates": ["../templates/src"],
-      "@amebic/examples": ["../examples/src"]
+      "@amebic/examples": ["../examples/src"],
+      "@amebic/branding": ["../branding/src"]
     }
   },
   "include": ["src"]

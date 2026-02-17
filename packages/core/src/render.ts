@@ -18,15 +18,20 @@ function createHtml(
   _width: number,
   _height: number,
   outputName: string,
-  additionalStyles: string[] = []
+  additionalStyles: string[] = [],
+  fontUrls: string[] = []
 ): string {
   const styleBlocks = additionalStyles
     .map((s) => `<style>${s}</style>`)
+    .join("\n");
+  const fontLinks = fontUrls
+    .map((url) => `<link rel="stylesheet" href="${url}">`)
     .join("\n");
   return `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
+  ${fontLinks}
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { width: 100%; height: 100%; overflow: hidden; }
@@ -58,6 +63,7 @@ export async function renderComposition(
     omitBackground = true,
     styles: additionalStyles = [],
   } = options;
+  const fontUrls = meta.config.fonts ?? [];
   const outputs = meta.config.outputs ?? [];
 
   if (outputs.length === 0) {
@@ -97,7 +103,8 @@ export async function renderComposition(
         width,
         height,
         outputName,
-        additionalStyles
+        additionalStyles,
+        fontUrls
       );
 
       await page.setContent(fullHtml, {

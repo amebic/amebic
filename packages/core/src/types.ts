@@ -35,6 +35,8 @@ export interface CompositionConfig<Props = Record<string, unknown>> {
   defaultDimensions?: { width: number; height: number };
   /** Output configs for multi-output rendering */
   outputs?: OutputConfig[];
+  /** Font URLs to load (e.g. Google Fonts CSS) for headless render */
+  fonts?: string[];
 }
 
 /**

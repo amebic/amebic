@@ -13,6 +13,7 @@ import {
 } from "@amebic/core";
 import "@amebic/templates";
 import "@amebic/examples";
+import "@amebic/branding";
 import { resolve } from "path";
 import { readFile } from "fs/promises";
 

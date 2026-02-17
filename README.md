@@ -1,5 +1,7 @@
 # Amebic
 
+![amebic](branding/output/Banner/readme.png)
+
 **ReMotion for still graphics.** One React composition → many still outputs in different formats.
 
 ## Quick Start
@@ -48,6 +50,7 @@ bunx playwright install chromium
 | `@amebic/cli` | CLI for `render` and `list` |
 | `@amebic/templates` | Published compositions (SocialCard, AppIcon, etc.) |
 | `@amebic/examples` | Experimental compositions (transparency, overlays) |
+| `@amebic/branding` | Logo and banner assets (Inconsolata Light 300) |
 
 ## Testing
 
