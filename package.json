@@ -5,7 +5,8 @@
   "scripts": {
     "build": "bun run --filter '*' build",
     "dev": "bun run --filter @amebic/preview dev",
-    "render": "bun run --filter @amebic/cli render"
+    "render": "bun run packages/cli/dist/cli.js render",
+    "list": "bun run packages/cli/dist/cli.js list"
   },
   "devDependencies": {
     "typescript": "^5.7.2"

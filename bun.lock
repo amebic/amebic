@@ -7,6 +7,21 @@
         "typescript": "^5.7.2",
       },
     },
+    "packages/cli": {
+      "name": "@amebic/cli",
+      "version": "0.1.0",
+      "bin": {
+        "amebic": "./dist/cli.js",
+      },
+      "dependencies": {
+        "@amebic/core": "workspace:*",
+        "@amebic/templates": "workspace:*",
+      },
+      "devDependencies": {
+        "@types/node": "^22.10.0",
+        "typescript": "^5.7.2",
+      },
+    },
     "packages/core": {
       "name": "@amebic/core",
       "version": "0.1.0",
@@ -55,6 +70,8 @@
     },
   },
   "packages": {
+    "@amebic/cli": ["@amebic/cli@workspace:packages/cli"],
+
     "@amebic/core": ["@amebic/core@workspace:packages/core"],
 
     "@amebic/preview": ["@amebic/preview@workspace:packages/preview"],
