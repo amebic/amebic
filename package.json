@@ -1,17 +1,32 @@
 {
   "name": "amebic",
   "private": true,
-  "workspaces": ["packages/*"],
+  "workspaces": ["packages/*", "apps/*"],
   "scripts": {
     "build": "bun run --filter '*' build",
     "dev": "bun run --filter @amebic/preview dev",
     "test": "bun run --filter '@amebic/core' test && bun run --filter '@amebic/templates' test && bun run --filter '@amebic/examples' test",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky install",
     "render": "bun run packages/cli/dist/cli.js render",
     "list": "bun run packages/cli/dist/cli.js list",
     "render:branding": "bun run render AmebicBranding --set --out-dir ./branding/output"
   },
   "devDependencies": {
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.0.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": ["eslint --fix", "prettier --write"],
+    "*.{json,md,yml}": ["prettier --write"]
   },
   "engines": {
     "node": ">=18"
