@@ -1,0 +1,56 @@
+# DISABLED - Enable by removing the `if: false` line when ready to publish
+# This workflow publishes all packages to npm when manually triggered
+
+name: Publish to NPM
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version bump type (patch, minor, major)'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  publish:
+    # Remove this line to enable the workflow
+    if: false
+    
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+      
+      - name: Install dependencies
+        run: bun install
+      
+      - name: Build packages
+        run: bun run build
+      
+      - name: Run tests
+        run: bun run test
+      
+      - name: Configure npm
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+      
+      - name: Publish packages
+        run: |
+          # Publish each package in order (core first)
+          cd packages/core && npm publish --access public
+          cd ../cli && npm publish --access public
+          cd ../preview && npm publish --access public
+          cd ../templates && npm publish --access public
+          cd ../examples && npm publish --access public
+          cd ../branding && npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
