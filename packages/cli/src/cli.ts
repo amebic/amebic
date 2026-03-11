@@ -5,17 +5,10 @@
  */
 
 import { renderComposition } from "@amebic/core/render";
-import {
-  getComposition,
-  getAllCompositions,
-  getSet,
-  getAllSets,
-} from "@amebic/core";
-import "@amebic/templates";
-import "@amebic/examples";
-import "@amebic/branding";
+import { getComposition, getAllCompositions, getSet, getAllSets } from "@amebic/core";
 import { resolve } from "path";
 import { readFile } from "fs/promises";
+import { loadProject } from "./project.js";
 
 const args = process.argv.slice(2);
 const command = args[0];
@@ -24,15 +17,39 @@ async function run() {
   if (command === "render") {
     await renderCommand(args.slice(1));
   } else if (command === "list" || !command) {
-    listCommand();
+    await listCommand(args.slice(command === "list" ? 1 : 0));
   } else {
     console.error(`Unknown command: ${command}`);
-    console.error("Usage: amebic [render|list]");
+    console.error("Usage: amebic [render|list] [--entry <path>]");
     process.exit(1);
   }
 }
 
-function listCommand() {
+function parseSharedOptions(args: string[]) {
+  let entryPath: string | undefined;
+
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    if (arg === "--entry" || arg === "-e") {
+      entryPath = args[++i];
+    }
+  }
+
+  return { entryPath };
+}
+
+function parseProps(content: string): Record<string, unknown> {
+  const parsed: unknown = JSON.parse(content);
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+    throw new Error("Props file must contain a JSON object.");
+  }
+  return parsed as Record<string, unknown>;
+}
+
+async function listCommand(args: string[]) {
+  const { entryPath } = parseSharedOptions(args);
+  await loadProject(process.cwd(), entryPath);
+
   const compositions = getAllCompositions();
   const sets = getAllSets();
   if (compositions.length === 0) {
@@ -61,6 +78,7 @@ async function renderCommand(args: string[]) {
   let propsPath: string | undefined;
   let format: "png" | "webp" | "jpeg" | undefined;
   let isSet = false;
+  let entryPath: string | undefined;
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -72,15 +90,21 @@ async function renderCommand(args: string[]) {
       format = args[++i] as "png" | "webp" | "jpeg";
     } else if (arg === "--set" || arg === "-s") {
       isSet = true;
+    } else if (arg === "--entry" || arg === "-e") {
+      entryPath = args[++i];
     } else if (!arg.startsWith("-") && !target) {
       target = arg;
     }
   }
 
   if (!target) {
-    console.error("Usage: amebic render <composition-id|set-id> [--set] [--out-dir <dir>] [--props <path>] [--format png|webp|jpeg]");
+    console.error(
+      "Usage: amebic render <composition-id|set-id> [--set] [--entry <path>] [--out-dir <dir>] [--props <path>] [--format png|webp|jpeg]"
+    );
     process.exit(1);
   }
+
+  await loadProject(process.cwd(), entryPath);
 
   const baseOutDir = resolve(process.cwd(), outDir);
   const allFiles: string[] = [];
@@ -113,7 +137,7 @@ async function renderCommand(args: string[]) {
     if (propsPath) {
       try {
         const content = await readFile(resolve(process.cwd(), propsPath), "utf-8");
-        props = { ...props, ...JSON.parse(content) };
+        props = { ...props, ...parseProps(content) };
       } catch (err) {
         console.error(`Failed to read props from ${propsPath}:`, err);
         process.exit(1);

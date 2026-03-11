@@ -1,11 +1,14 @@
 {
   "name": "amebic",
   "private": true,
-  "workspaces": ["packages/*", "apps/*"],
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "scripts": {
     "build": "bun run --filter '*' build",
     "dev": "bun run --filter @amebic/preview dev",
-    "test": "bun run --filter '@amebic/core' test && bun run --filter '@amebic/templates' test && bun run --filter '@amebic/examples' test",
+    "test": "bun run --filter '@amebic/core' test && bun run --filter '@amebic/templates' test && bun run --filter '@amebic/examples' test && bun run --filter '@amebic/cli' test",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "format": "prettier --write .",
@@ -25,8 +28,13 @@
     "lint-staged": "^15.0.0"
   },
   "lint-staged": {
-    "*.{ts,tsx}": ["eslint --fix", "prettier --write"],
-    "*.{json,md,yml}": ["prettier --write"]
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml}": [
+      "prettier --write"
+    ]
   },
   "engines": {
     "node": ">=18"

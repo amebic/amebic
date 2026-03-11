@@ -10,7 +10,7 @@
 
 ![Preview UI](assets/preview-ui.png)
 
-*The Amebic preview UI - edit compositions in real-time*
+_The Amebic preview UI - edit compositions in real-time_
 
 ## Quick Start
 
@@ -18,6 +18,8 @@
 bun install
 bun run build
 ```
+
+Create a project entry file such as `src/index.ts` or `src/index.tsx` that imports the compositions you want to register. The CLI loads that file from the current working directory.
 
 ### Preview UI
 
@@ -43,6 +45,12 @@ bun run render ProductBranding --set --out-dir ./output
 bun run render SocialCard --out-dir ./output --props ./props.json
 ```
 
+If your entry file lives somewhere else, pass it explicitly:
+
+```bash
+bun run render SocialCard --entry ./graphics/entry.ts --out-dir ./output
+```
+
 **First-time setup:** Install Chromium for Playwright:
 
 ```bash
@@ -51,14 +59,14 @@ bunx playwright install chromium
 
 ## Packages
 
-| Package | Description |
-|---------|-------------|
-| `@amebic/core` | Composition API, registry, render (Node) |
-| `@amebic/preview` | Vite + React preview UI |
-| `@amebic/cli` | CLI for `render` and `list` |
+| Package             | Description                                        |
+| ------------------- | -------------------------------------------------- |
+| `@amebic/core`      | Composition API, registry, render (Node)           |
+| `@amebic/preview`   | Vite + React preview UI                            |
+| `@amebic/cli`       | CLI for `render` and `list`                        |
 | `@amebic/templates` | Published compositions (SocialCard, AppIcon, etc.) |
-| `@amebic/examples` | Experimental compositions (transparency, overlays) |
-| `@amebic/branding` | Logo and banner assets (Inconsolata Light 300) |
+| `@amebic/examples`  | Experimental compositions (transparency, overlays) |
+| `@amebic/branding`  | Logo and banner assets (Inconsolata Light 300)     |
 
 ## Testing
 
@@ -75,11 +83,7 @@ import { useComposition, registerComposition } from "@amebic/core";
 
 export const MyGraphic: React.FC<{ title: string }> = (props) => {
   const { width, height, outputName } = useComposition();
-  return (
-    <div style={{ width, height, background: "#333", color: "#fff" }}>
-      {props.title}
-    </div>
-  );
+  return <div style={{ width, height, background: "#333", color: "#fff" }}>{props.title}</div>;
 };
 
 registerComposition(MyGraphic, {
@@ -91,8 +95,8 @@ registerComposition(MyGraphic, {
 });
 ```
 
-Import your composition (e.g. in `@amebic/templates`) to register it for preview and render.
+Import your composition from your project entry file so the CLI can register it at runtime.
 
 ---
 
-*Amebic is inspired by the composition model of [ReMotion](https://www.remotion.dev/).*
+_Amebic is inspired by the composition model of [ReMotion](https://www.remotion.dev/)._
