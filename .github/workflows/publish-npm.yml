@@ -1,0 +1,81 @@
+name: publish-npm
+
+on:
+  push:
+    tags:
+      - "core-v*"
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: publish-npm-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish-core:
+    name: Publish @amebic/core
+    runs-on: ubuntu-latest
+    environment: npm
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      - name: Upgrade npm for trusted publishing
+        run: npm install --global npm@latest
+
+      - name: Show tool versions
+        run: |
+          node --version
+          npm --version
+          bun --version
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Verify release tag matches package version
+        run: |
+          PACKAGE_VERSION="$(node -p "require('./packages/core/package.json').version")"
+          EXPECTED_TAG="refs/tags/core-v${PACKAGE_VERSION}"
+          if [ "${GITHUB_REF}" != "${EXPECTED_TAG}" ]; then
+            echo "Expected tag ${EXPECTED_TAG} but received ${GITHUB_REF}"
+            exit 1
+          fi
+
+      - name: Run quality gates
+        run: |
+          bun run lint
+          bun run format:check
+          bun run test
+          bun run build
+
+      - name: Verify publish contents
+        working-directory: packages/core
+        run: npm pack --dry-run
+
+      - name: Skip if version is already published
+        id: published
+        run: |
+          PACKAGE_VERSION="$(node -p "require('./packages/core/package.json').version")"
+          REGISTRY_VERSION="$(npm view @amebic/core version 2>/dev/null || true)"
+          if [ "${PACKAGE_VERSION}" = "${REGISTRY_VERSION}" ]; then
+            echo "skip=true" >> "${GITHUB_OUTPUT}"
+          else
+            echo "skip=false" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Publish to npm with trusted publishing
+        if: steps.published.outputs.skip != 'true'
+        working-directory: packages/core
+        run: npm publish --access public
