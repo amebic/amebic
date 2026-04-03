@@ -4,6 +4,11 @@ on:
   push:
     tags:
       - "core-v*"
+      - "cli-v*"
+      - "preview-v*"
+      - "templates-v*"
+      - "examples-v*"
+      - "branding-v*"
 
 permissions:
   contents: read
@@ -14,8 +19,28 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  publish-core:
-    name: Publish @amebic/core
+  detect-package:
+    name: Detect Package from Tag
+    runs-on: ubuntu-latest
+    outputs:
+      package: ${{ steps.detect.outputs.package }}
+      version: ${{ steps.detect.outputs.version }}
+    steps:
+      - name: Detect package from tag
+        id: detect
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          # Extract package name (everything before -v)
+          PACKAGE="${TAG%-v*}"
+          # Extract version (everything after -v)
+          VERSION="${TAG#*-v}"
+          echo "package=${PACKAGE}" >> "${GITHUB_OUTPUT}"
+          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
+          echo "Detected package: ${PACKAGE}, version: ${VERSION}"
+
+  publish:
+    name: Publish ${{ needs.detect-package.outputs.package }}
+    needs: detect-package
     runs-on: ubuntu-latest
     environment: npm
 
@@ -44,12 +69,27 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Verify release tag matches package version
+      - name: Map to package directory
+        id: map
         run: |
-          PACKAGE_VERSION="$(node -p "require('./packages/core/package.json').version")"
-          EXPECTED_TAG="refs/tags/core-v${PACKAGE_VERSION}"
-          if [ "${GITHUB_REF}" != "${EXPECTED_TAG}" ]; then
-            echo "Expected tag ${EXPECTED_TAG} but received ${GITHUB_REF}"
+          PACKAGE_NAME="${{ needs.detect-package.outputs.package }}"
+          case "$PACKAGE_NAME" in
+            core) echo "dir=core" >> "${GITHUB_OUTPUT}" ;;
+            cli) echo "dir=cli" >> "${GITHUB_OUTPUT}" ;;
+            preview) echo "dir=preview" >> "${GITHUB_OUTPUT}" ;;
+            templates) echo "dir=templates" >> "${GITHUB_OUTPUT}" ;;
+            examples) echo "dir=examples" >> "${GITHUB_OUTPUT}" ;;
+            branding) echo "dir=branding" >> "${GITHUB_OUTPUT}" ;;
+            *) echo "Unknown package: $PACKAGE_NAME"; exit 1 ;;
+          esac
+
+      - name: Verify release tag matches package version
+        working-directory: packages/${{ steps.map.outputs.dir }}
+        run: |
+          PACKAGE_VERSION="$(node -p "require('./package.json').version")"
+          EXPECTED_VERSION="${{ needs.detect-package.outputs.version }}"
+          if [ "${PACKAGE_VERSION}" != "${EXPECTED_VERSION}" ]; then
+            echo "Expected version ${EXPECTED_VERSION} but package.json has ${PACKAGE_VERSION}"
             exit 1
           fi
 
@@ -61,21 +101,25 @@ jobs:
           bun run build
 
       - name: Verify publish contents
-        working-directory: packages/core
+        working-directory: packages/${{ steps.map.outputs.dir }}
         run: npm pack --dry-run
 
       - name: Skip if version is already published
         id: published
+        working-directory: packages/${{ steps.map.outputs.dir }}
         run: |
-          PACKAGE_VERSION="$(node -p "require('./packages/core/package.json').version")"
-          REGISTRY_VERSION="$(npm view @amebic/core version 2>/dev/null || true)"
+          PACKAGE_NAME="@amebic/${{ needs.detect-package.outputs.package }}"
+          PACKAGE_VERSION="$(node -p "require('./package.json').version")"
+          REGISTRY_VERSION="$(npm view ${PACKAGE_NAME} version 2>/dev/null || true)"
           if [ "${PACKAGE_VERSION}" = "${REGISTRY_VERSION}" ]; then
             echo "skip=true" >> "${GITHUB_OUTPUT}"
+            echo "Version ${PACKAGE_VERSION} is already published"
           else
             echo "skip=false" >> "${GITHUB_OUTPUT}"
+            echo "Version ${PACKAGE_VERSION} not yet published (current: ${REGISTRY_VERSION:-none})"
           fi
 
       - name: Publish to npm with trusted publishing
         if: steps.published.outputs.skip != 'true'
-        working-directory: packages/core
+        working-directory: packages/${{ steps.map.outputs.dir }}
         run: npm publish --access public

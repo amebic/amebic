@@ -1,4 +1,3 @@
-# DISABLED - Enable by removing the `if: false` line when ready
 # This workflow creates a GitHub release with changelog
 
 name: Release
@@ -13,8 +12,6 @@ on:
 
 jobs:
   release:
-    # Remove this line to enable the workflow
-    if: false
     
     runs-on: ubuntu-latest
     steps:

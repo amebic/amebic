@@ -1,19 +1,16 @@
-# DISABLED - Enable by removing the `if: false` line when ready
 # This workflow runs tests on pull requests and pushes to main
 
 name: CI
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches: [main]
-  # pull_request:
-  #   branches: [main]
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   test:
-    # Remove this line to enable the workflow
-    if: false
     
     runs-on: ubuntu-latest
     

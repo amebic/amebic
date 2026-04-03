@@ -1,6 +1,6 @@
 {
   "name": "@amebic/cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "bin": {
     "amebic": "./dist/cli.js"
@@ -10,7 +10,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@amebic/core": "workspace:*",
+    "@amebic/core": "^0.1.1",
     "tsx": "^4.21.0"
   },
   "devDependencies": {
