@@ -1,125 +1,75 @@
-name: publish-npm
+name: Publish to NPM
 
 on:
   push:
     tags:
-      - "core-v*"
-      - "cli-v*"
-      - "preview-v*"
-      - "templates-v*"
-      - "examples-v*"
-      - "branding-v*"
+      - "*-v*"
 
 permissions:
   contents: read
   id-token: write
 
 concurrency:
-  group: publish-npm-${{ github.ref }}
+  group: publish-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-  detect-package:
-    name: Detect Package from Tag
-    runs-on: ubuntu-latest
-    outputs:
-      package: ${{ steps.detect.outputs.package }}
-      version: ${{ steps.detect.outputs.version }}
-    steps:
-      - name: Detect package from tag
-        id: detect
-        run: |
-          TAG="${GITHUB_REF#refs/tags/}"
-          # Extract package name (everything before -v)
-          PACKAGE="${TAG%-v*}"
-          # Extract version (everything after -v)
-          VERSION="${TAG#*-v}"
-          echo "package=${PACKAGE}" >> "${GITHUB_OUTPUT}"
-          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
-          echo "Detected package: ${PACKAGE}, version: ${VERSION}"
-
   publish:
-    name: Publish ${{ needs.detect-package.outputs.package }}
-    needs: detect-package
     runs-on: ubuntu-latest
     environment: npm
 
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Bun
-        uses: oven-sh/setup-bun@v2
+      - uses: oven-sh/setup-bun@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org
 
-      - name: Upgrade npm for trusted publishing
-        run: npm install --global npm@latest
-
-      - name: Show tool versions
+      - name: Parse tag
+        id: parse
         run: |
-          node --version
-          npm --version
-          bun --version
+          TAG="${GITHUB_REF#refs/tags/}"
+          PACKAGE="${TAG%%-v*}"
+          VERSION="${TAG##*-v}"
+          echo "package=${PACKAGE}" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "Publishing @amebic/${PACKAGE}@${VERSION}"
+
+      - name: Verify version match
+        working-directory: packages/${{ steps.parse.outputs.package }}
+        run: |
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          [ "$PKG_VERSION" = "${{ steps.parse.outputs.version }}" ] || {
+            echo "Version mismatch: tag has ${{ steps.parse.outputs.version }}, package.json has $PKG_VERSION"
+            exit 1
+          }
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Map to package directory
-        id: map
-        run: |
-          PACKAGE_NAME="${{ needs.detect-package.outputs.package }}"
-          case "$PACKAGE_NAME" in
-            core) echo "dir=core" >> "${GITHUB_OUTPUT}" ;;
-            cli) echo "dir=cli" >> "${GITHUB_OUTPUT}" ;;
-            preview) echo "dir=preview" >> "${GITHUB_OUTPUT}" ;;
-            templates) echo "dir=templates" >> "${GITHUB_OUTPUT}" ;;
-            examples) echo "dir=examples" >> "${GITHUB_OUTPUT}" ;;
-            branding) echo "dir=branding" >> "${GITHUB_OUTPUT}" ;;
-            *) echo "Unknown package: $PACKAGE_NAME"; exit 1 ;;
-          esac
-
-      - name: Verify release tag matches package version
-        working-directory: packages/${{ steps.map.outputs.dir }}
-        run: |
-          PACKAGE_VERSION="$(node -p "require('./package.json').version")"
-          EXPECTED_VERSION="${{ needs.detect-package.outputs.version }}"
-          if [ "${PACKAGE_VERSION}" != "${EXPECTED_VERSION}" ]; then
-            echo "Expected version ${EXPECTED_VERSION} but package.json has ${PACKAGE_VERSION}"
-            exit 1
-          fi
-
-      - name: Run quality gates
+      - name: Build and test
         run: |
           bun run lint
           bun run format:check
           bun run test
           bun run build
 
-      - name: Verify publish contents
-        working-directory: packages/${{ steps.map.outputs.dir }}
-        run: npm pack --dry-run
-
-      - name: Skip if version is already published
-        id: published
-        working-directory: packages/${{ steps.map.outputs.dir }}
+      - name: Check already published
+        id: check
+        working-directory: packages/${{ steps.parse.outputs.package }}
         run: |
-          PACKAGE_NAME="@amebic/${{ needs.detect-package.outputs.package }}"
-          PACKAGE_VERSION="$(node -p "require('./package.json').version")"
-          REGISTRY_VERSION="$(npm view ${PACKAGE_NAME} version 2>/dev/null || true)"
-          if [ "${PACKAGE_VERSION}" = "${REGISTRY_VERSION}" ]; then
-            echo "skip=true" >> "${GITHUB_OUTPUT}"
-            echo "Version ${PACKAGE_VERSION} is already published"
-          else
-            echo "skip=false" >> "${GITHUB_OUTPUT}"
-            echo "Version ${PACKAGE_VERSION} not yet published (current: ${REGISTRY_VERSION:-none})"
+          NAME=$(node -p "require('./package.json').name")
+          VER=$(node -p "require('./package.json').version")
+          PUBLISHED=$(npm view "$NAME@$VER" version 2>/dev/null || echo "")
+          if [ -n "$PUBLISHED" ]; then
+            echo "already_published=true" >> "$GITHUB_OUTPUT"
+            echo "$NAME@$VER is already published"
           fi
 
-      - name: Publish to npm with trusted publishing
-        if: steps.published.outputs.skip != 'true'
-        working-directory: packages/${{ steps.map.outputs.dir }}
-        run: npm publish --access public
+      - name: Publish to npm
+        if: steps.check.outputs.already_published != 'true'
+        working-directory: packages/${{ steps.parse.outputs.package }}
+        run: npm publish --access public --provenance
