@@ -16,7 +16,7 @@
     "prepare": "husky install",
     "render": "bun run packages/cli/dist/cli.js render",
     "list": "bun run packages/cli/dist/cli.js list",
-    "render:branding": "bun run render AmebicBranding --set --out-dir ./branding/output"
+    "render:branding": "bun run render AmebicBranding --set --out-dir ./branding/output --entry packages/branding/src/index.ts"
   },
   "devDependencies": {
     "typescript": "^5.7.2",

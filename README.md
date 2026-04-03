@@ -2,7 +2,7 @@
 
 ![amebic](branding/output/Banner/readme.png)
 
-**React compositions for still graphics.** One component, many outputs.
+**React compositions for graphics.** One component, many outputs.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Tests](https://img.shields.io/badge/tests-vitest-green)

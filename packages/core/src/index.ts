@@ -1,5 +1,5 @@
 /**
- * @fileoverview Amebic core - React compositions for still graphics.
+ * @fileoverview Amebic core - React compositions for graphics.
  * @module @amebic/core
  */
 
