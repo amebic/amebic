@@ -33,6 +33,7 @@ skills/amebic/
 ## Usage
 
 Once installed, the skill activates when you:
+
 - Mention "render" or "rendering" compositions
 - Ask about creating compositions or templates
 - Work with Amebic-specific code

@@ -1,4 +1,4 @@
-import { Hero } from '../components/Hero'
+import { Hero } from "../components/Hero";
 
 # Amebic
 
@@ -24,7 +24,7 @@ bun run dev
 Amebic is a toolkit for generating still graphics using React. Instead of creating separate files for every image size and format, you:
 
 1. **Define** your graphic as a React component
-2. **Register** it with output configurations  
+2. **Register** it with output configurations
 3. **Render** to any format (PNG, WebP, JPEG, SVG)
 
 ```tsx
@@ -32,11 +32,7 @@ import { useComposition, registerComposition } from "@amebic/core";
 
 export const MyGraphic: React.FC<{ title: string }> = (props) => {
   const { width, height, outputName } = useComposition();
-  return (
-    <div style={{ width, height, background: "#333", color: "#fff" }}>
-      {props.title}
-    </div>
-  );
+  return <div style={{ width, height, background: "#333", color: "#fff" }}>{props.title}</div>;
 };
 
 registerComposition(MyGraphic, {

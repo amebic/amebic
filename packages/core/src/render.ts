@@ -21,12 +21,8 @@ function createHtml(
   additionalStyles: string[] = [],
   fontUrls: string[] = []
 ): string {
-  const styleBlocks = additionalStyles
-    .map((s) => `<style>${s}</style>`)
-    .join("\n");
-  const fontLinks = fontUrls
-    .map((url) => `<link rel="stylesheet" href="${url}">`)
-    .join("\n");
+  const styleBlocks = additionalStyles.map((s) => `<style>${s}</style>`).join("\n");
+  const fontLinks = fontUrls.map((url) => `<link rel="stylesheet" href="${url}">`).join("\n");
   return `<!DOCTYPE html>
 <html>
 <head>
@@ -87,25 +83,15 @@ export async function renderComposition(
       await page.setViewportSize({ width, height });
 
       const compositionElement = createElement(meta.component, props as never);
-      const compositionWithContext = createElement(
-        Composition,
-        {
-          width,
-          height,
-          outputName,
-          children: compositionElement,
-        }
-      );
-
-      const html = renderToStaticMarkup(compositionWithContext);
-      const fullHtml = createHtml(
-        html,
+      const compositionWithContext = createElement(Composition, {
         width,
         height,
         outputName,
-        additionalStyles,
-        fontUrls
-      );
+        children: compositionElement,
+      });
+
+      const html = renderToStaticMarkup(compositionWithContext);
+      const fullHtml = createHtml(html, width, height, outputName, additionalStyles, fontUrls);
 
       await page.setContent(fullHtml, {
         waitUntil: "networkidle",

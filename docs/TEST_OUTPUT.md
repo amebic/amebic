@@ -11,14 +11,14 @@ bun run render Creative --set --out-dir ./test-output
 
 ## Compositions Registered
 
-| Composition | Outputs |
-|-------------|---------|
-| SocialCard | og (1200×630), twitter (1200×630) |
-| AppIcon | favicon-16…apple-touch-icon (8 outputs) |
-| GradientHero | hero (1920×600), banner (1200×400), card (600×300) |
-| Badge | tiny (16×16), small (24×24), medium (32×32), large (48×48) |
+| Composition  | Outputs                                                     |
+| ------------ | ----------------------------------------------------------- |
+| SocialCard   | og (1200×630), twitter (1200×630)                           |
+| AppIcon      | favicon-16…apple-touch-icon (8 outputs)                     |
+| GradientHero | hero (1920×600), banner (1200×400), card (600×300)          |
+| Badge        | tiny (16×16), small (24×24), medium (32×32), large (48×48)  |
 | PodcastCover | spotify (3000×3000), apple (1400×1400), thumbnail (300×300) |
-| NeonCard | card (400×300), small (200×150) |
+| NeonCard     | card (400×300), small (200×150)                             |
 
 ## Sets
 

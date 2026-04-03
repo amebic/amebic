@@ -23,10 +23,7 @@ Build polished still graphics with React components.
 ```tsx
 import { useComposition, registerComposition } from "@amebic/core";
 
-export const SocialCard: React.FC<{ title: string; subtitle?: string }> = ({
-  title,
-  subtitle,
-}) => {
+export const SocialCard: React.FC<{ title: string; subtitle?: string }> = ({ title, subtitle }) => {
   const { width, height } = useComposition();
 
   return (
@@ -58,9 +55,7 @@ registerComposition(SocialCard, {
     { name: "og", width: 1200, height: 630 },
     { name: "twitter", width: 1200, height: 600 },
   ],
-  fonts: [
-    "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap",
-  ],
+  fonts: ["https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"],
 });
 ```
 
@@ -72,10 +67,10 @@ Returns viewport metadata for the current render:
 const { width, height, outputName } = useComposition();
 ```
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `width` | number | Viewport width in pixels |
-| `height` | number | Viewport height in pixels |
+| Field        | Type   | Description                                    |
+| ------------ | ------ | ---------------------------------------------- |
+| `width`      | number | Viewport width in pixels                       |
+| `height`     | number | Viewport height in pixels                      |
 | `outputName` | string | Current output name (e.g., "og", "favicon-16") |
 
 ## Output-Aware Rendering

@@ -32,9 +32,10 @@ export function registerComposition<Props extends Record<string, unknown>>(
   component: ComponentType<Props>,
   config: CompositionConfig<Props> = {}
 ): string {
-  const id = (component as { displayName?: string; name?: string }).displayName
-    ?? (component as { displayName?: string; name?: string }).name
-    ?? "Anonymous";
+  const id =
+    (component as { displayName?: string; name?: string }).displayName ??
+    (component as { displayName?: string; name?: string }).name ??
+    "Anonymous";
   compositions.set(id, {
     id,
     component: component as ComponentType<Record<string, unknown>>,

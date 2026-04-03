@@ -13,8 +13,9 @@ const { width, height, outputName } = useComposition();
 ```
 
 **Returns:** `CompositionContextValue`
+
 - `width: number` — Viewport width in pixels
-- `height: number` — Viewport height in pixels  
+- `height: number` — Viewport height in pixels
 - `outputName: string` — Name of current output
 
 ### Registration
@@ -26,9 +27,7 @@ Register a composition for rendering.
 ```ts
 registerComposition(MyComponent, {
   defaultProps: { title: "Hello" },
-  outputs: [
-    { name: "og", width: 1200, height: 630 },
-  ],
+  outputs: [{ name: "og", width: 1200, height: 630 }],
 });
 ```
 
@@ -95,6 +94,7 @@ const files = await renderComposition(meta, props, {
 ```
 
 **Parameters:**
+
 - `meta: CompositionMeta` — Composition metadata
 - `props: Record<string, unknown>` — Props to pass to component
 - `options: RenderOptions` — Render options

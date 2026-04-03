@@ -9,8 +9,4 @@ import "./compositions/TransparentOverlay.js";
 import "./compositions/GlassBadge.js";
 
 /** Transparency examples set */
-registerSet("TransparencyExamples", [
-  "TransparentWatermark",
-  "TransparentOverlay",
-  "GlassBadge",
-]);
+registerSet("TransparencyExamples", ["TransparentWatermark", "TransparentOverlay", "GlassBadge"]);

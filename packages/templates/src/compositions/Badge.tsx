@@ -16,9 +16,7 @@ export const Badge: React.FC<BadgeProps> = (props) => {
   const { width, height } = useComposition();
   const color = props.color ?? "#ef4444";
   const displayCount =
-    props.maxCount && props.count > props.maxCount
-      ? `${props.maxCount}+`
-      : String(props.count);
+    props.maxCount && props.count > props.maxCount ? `${props.maxCount}+` : String(props.count);
 
   const isTiny = width <= 32;
   const fontSize = Math.max(10, width * 0.5);

@@ -48,11 +48,7 @@ import { useComposition, registerComposition } from "@amebic/core";
 
 export const MyGraphic = ({ title }) => {
   const { width, height } = useComposition();
-  return (
-    <div style={{ width, height, background: "#333", color: "#fff" }}>
-      {title}
-    </div>
-  );
+  return <div style={{ width, height, background: "#333", color: "#fff" }}>{title}</div>;
 };
 
 registerComposition(MyGraphic, {

@@ -109,7 +109,13 @@ export const BlobLogo: React.FC<BlobLogoProps> = (props) => {
 
           {/* Soft shadow for the card */}
           <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="12" stdDeviation="24" floodColor="#000000" floodOpacity="0.25" />
+            <feDropShadow
+              dx="0"
+              dy="12"
+              stdDeviation="24"
+              floodColor="#000000"
+              floodOpacity="0.25"
+            />
           </filter>
 
           {/* Clip path for rounded card */}
@@ -155,10 +161,20 @@ export const BlobLogo: React.FC<BlobLogoProps> = (props) => {
           <circle cx="0" cy="0" r={blobScale} fill="url(#blobGradient)" />
 
           {/* Satellite blobs for organic shape */}
-          <circle cx={-blobScale * 0.6} cy={blobScale * 0.3} r={blobScale * 0.55} fill={blobColor} />
+          <circle
+            cx={-blobScale * 0.6}
+            cy={blobScale * 0.3}
+            r={blobScale * 0.55}
+            fill={blobColor}
+          />
           <circle cx={blobScale * 0.5} cy={-blobScale * 0.4} r={blobScale * 0.5} fill={blobColor} />
           <circle cx={blobScale * 0.3} cy={blobScale * 0.6} r={blobScale * 0.45} fill={blobColor} />
-          <circle cx={-blobScale * 0.3} cy={-blobScale * 0.5} r={blobScale * 0.4} fill={blobColor} />
+          <circle
+            cx={-blobScale * 0.3}
+            cy={-blobScale * 0.5}
+            r={blobScale * 0.4}
+            fill={blobColor}
+          />
           <circle cx={0} cy={blobScale * 0.8} r={blobScale * 0.35} fill={blobColor} />
         </g>
 

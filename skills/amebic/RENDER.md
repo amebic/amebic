@@ -59,12 +59,12 @@ bun run render ProductBranding --set --out-dir ./output
 
 ## CLI Options
 
-| Option | Description |
-|--------|-------------|
+| Option          | Description                            |
+| --------------- | -------------------------------------- |
 | `--out-dir, -o` | Output directory (default: `./output`) |
-| `--props` | Path to JSON props file |
-| `--format, -f` | Override format: `png`, `webp`, `jpeg` |
-| `--set, -s` | Render as a set |
+| `--props`       | Path to JSON props file                |
+| `--format, -f`  | Override format: `png`, `webp`, `jpeg` |
+| `--set, -s`     | Render as a set                        |
 
 ## Programmatic API
 
@@ -106,11 +106,10 @@ async function renderSet(setId: string, outDir: string) {
     const meta = getComposition(id);
     if (!meta) continue;
 
-    const files = await renderComposition(
-      meta,
-      meta.config.defaultProps ?? {},
-      { outDir, omitBackground: true }
-    );
+    const files = await renderComposition(meta, meta.config.defaultProps ?? {}, {
+      outDir,
+      omitBackground: true,
+    });
 
     results.push(...files);
   }
@@ -123,10 +122,10 @@ async function renderSet(setId: string, outDir: string) {
 
 ```ts
 interface RenderOptions {
-  outDir: string;                    // Required: output directory
+  outDir: string; // Required: output directory
   format?: "png" | "webp" | "jpeg"; // Override all output formats
-  omitBackground?: boolean;          // Default: true (PNG/WebP only)
-  styles?: string[];                 // Additional CSS to inject
+  omitBackground?: boolean; // Default: true (PNG/WebP only)
+  styles?: string[]; // Additional CSS to inject
 }
 ```
 
@@ -145,12 +144,12 @@ output/
 
 ## Format Selection Guide
 
-| Format | Best For | Pros | Cons |
-|--------|----------|------|------|
-| **PNG** | Icons, transparency | Lossless, alpha channel | Larger files |
-| **WebP** | Web assets | Small, supports alpha | Less universal support |
-| **JPEG** | Photos | Smallest for photos | No transparency |
-| **SVG** | Simple logos | Scalable, tiny | Limited complexity |
+| Format   | Best For            | Pros                    | Cons                   |
+| -------- | ------------------- | ----------------------- | ---------------------- |
+| **PNG**  | Icons, transparency | Lossless, alpha channel | Larger files           |
+| **WebP** | Web assets          | Small, supports alpha   | Less universal support |
+| **JPEG** | Photos              | Smallest for photos     | No transparency        |
+| **SVG**  | Simple logos        | Scalable, tiny          | Limited complexity     |
 
 ## Troubleshooting
 
@@ -160,8 +159,8 @@ Ensure the composition is imported in the CLI's dependency tree:
 
 ```ts
 // In cli.ts or entry point
-import "@amebic/templates";  // Registers compositions
-import "@amebic/branding";   // Registers branding
+import "@amebic/templates"; // Registers compositions
+import "@amebic/branding"; // Registers branding
 ```
 
 ### Chromium not found

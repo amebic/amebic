@@ -47,9 +47,7 @@ export const PodcastCover: React.FC<PodcastCoverProps> = (props) => {
         {props.title}
       </h1>
       {props.subtitle && (
-        <p style={{ fontSize: Math.min(width * 0.04, 16), opacity: 0.9 }}>
-          {props.subtitle}
-        </p>
+        <p style={{ fontSize: Math.min(width * 0.04, 16), opacity: 0.9 }}>{props.subtitle}</p>
       )}
     </div>
   );

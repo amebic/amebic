@@ -21,9 +21,7 @@ export const SocialCard: React.FC<SocialCardProps> = (props) => {
         width,
         height,
         overflow: "hidden",
-        background:
-          props.backgroundColor ??
-          "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        background: props.backgroundColor ?? "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -34,9 +32,7 @@ export const SocialCard: React.FC<SocialCardProps> = (props) => {
       }}
     >
       <h1 style={{ fontSize: 48, marginBottom: 16 }}>{props.title}</h1>
-      {props.subtitle && (
-        <p style={{ fontSize: 24, opacity: 0.9 }}>{props.subtitle}</p>
-      )}
+      {props.subtitle && <p style={{ fontSize: 24, opacity: 0.9 }}>{props.subtitle}</p>}
     </div>
   );
 };

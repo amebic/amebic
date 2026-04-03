@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import type { OutputConfig, OutputFormat, CompositionConfig } from "../types.js";
+import type { OutputConfig, OutputFormat } from "../types.js";
 
 describe("OutputConfig", () => {
   it("accepts valid output config", () => {

@@ -21,12 +21,7 @@ export interface CompositionProps {
  * Root wrapper for a composition. Provides viewport dimensions and output name
  * to children via useComposition(). The container is sized exactly to width×height.
  */
-export function Composition({
-  width,
-  height,
-  outputName = "default",
-  children,
-}: CompositionProps) {
+export function Composition({ width, height, outputName = "default", children }: CompositionProps) {
   const contextValue = {
     outputName,
     width,
@@ -43,11 +38,7 @@ export function Composition({
 
   return (
     <CompositionContext.Provider value={contextValue}>
-      <div
-        data-amebic-composition
-        data-output-name={outputName}
-        style={style}
-      >
+      <div data-amebic-composition data-output-name={outputName} style={style}>
         {children}
       </div>
     </CompositionContext.Provider>

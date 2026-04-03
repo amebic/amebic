@@ -8,8 +8,7 @@ import { useComposition, registerComposition } from "@amebic/core";
 /** App icon composition - adapts via outputName and viewport */
 export const AppIcon: React.FC = () => {
   const { width, height, outputName } = useComposition();
-  const simplified =
-    outputName === "favicon-16" || outputName === "favicon-32";
+  const simplified = outputName === "favicon-16" || outputName === "favicon-32";
 
   return (
     <div
@@ -17,36 +16,31 @@ export const AppIcon: React.FC = () => {
         width,
         height,
         display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+        alignItems: "center",
+        justifyContent: "center",
         background: "transparent",
       }}
     >
-        <svg
-          viewBox="0 0 24 24"
-          width={width}
-          height={height}
-          style={{ display: "block" }}
-        >
-          {simplified ? (
-            <path
-              d="M12 2L2 7v10l10 5 10-5V7L12 2z"
-              fill="none"
-              stroke="#6366f1"
-              strokeWidth="2"
-              strokeLinejoin="round"
-            />
-          ) : (
-            <path
-              d="M12 2L2 7v10l10 5 10-5V7L12 2z"
-              fill="none"
-              stroke="#6366f1"
-              strokeWidth="1.5"
-              strokeLinejoin="round"
-            />
-          )}
-        </svg>
-      </div>
+      <svg viewBox="0 0 24 24" width={width} height={height} style={{ display: "block" }}>
+        {simplified ? (
+          <path
+            d="M12 2L2 7v10l10 5 10-5V7L12 2z"
+            fill="none"
+            stroke="#6366f1"
+            strokeWidth="2"
+            strokeLinejoin="round"
+          />
+        ) : (
+          <path
+            d="M12 2L2 7v10l10 5 10-5V7L12 2z"
+            fill="none"
+            stroke="#6366f1"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+          />
+        )}
+      </svg>
+    </div>
   );
 };
 

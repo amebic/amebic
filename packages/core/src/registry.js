@@ -11,8 +11,8 @@ const sets = new Map();
  * @internal
  */
 export function _resetRegistry() {
-    compositions.clear();
-    sets.clear();
+  compositions.clear();
+  sets.clear();
 }
 /**
  * Register a composition for preview and rendering.
@@ -22,15 +22,13 @@ export function _resetRegistry() {
  * @returns The composition id (derived from component name)
  */
 export function registerComposition(component, config = {}) {
-    const id = component.displayName
-        ?? component.name
-        ?? "Anonymous";
-    compositions.set(id, {
-        id,
-        component: component,
-        config: config,
-    });
-    return id;
+  const id = component.displayName ?? component.name ?? "Anonymous";
+  compositions.set(id, {
+    id,
+    component: component,
+    config: config,
+  });
+  return id;
 }
 /**
  * Register a set of compositions (e.g. product branding pack).
@@ -39,29 +37,29 @@ export function registerComposition(component, config = {}) {
  * @param compositionIds - Array of composition ids in this set
  */
 export function registerSet(id, compositionIds) {
-    sets.set(id, compositionIds);
+  sets.set(id, compositionIds);
 }
 /**
  * Get a composition by id.
  */
 export function getComposition(id) {
-    return compositions.get(id);
+  return compositions.get(id);
 }
 /**
  * Get all registered compositions.
  */
 export function getAllCompositions() {
-    return Array.from(compositions.values());
+  return Array.from(compositions.values());
 }
 /**
  * Get a set by id.
  */
 export function getSet(id) {
-    return sets.get(id);
+  return sets.get(id);
 }
 /**
  * Get all registered sets.
  */
 export function getAllSets() {
-    return new Map(sets);
+  return new Map(sets);
 }

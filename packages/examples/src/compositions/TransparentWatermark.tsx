@@ -11,9 +11,7 @@ export interface TransparentWatermarkProps {
 }
 
 /** Watermark overlay - transparent background, semi-transparent text */
-export const TransparentWatermark: React.FC<TransparentWatermarkProps> = (
-  props
-) => {
+export const TransparentWatermark: React.FC<TransparentWatermarkProps> = (props) => {
   const { width, height } = useComposition();
   const opacity = props.opacity ?? 0.3;
 

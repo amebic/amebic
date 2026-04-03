@@ -5,11 +5,7 @@
  */
 
 import { useState, useMemo, useCallback, useRef } from "react";
-import {
-  Composition,
-  getAllCompositions,
-  getComposition,
-} from "@amebic/core";
+import { Composition, getAllCompositions, getComposition } from "@amebic/core";
 /** Import to trigger composition registration */
 import "@amebic/templates";
 import "@amebic/examples";
@@ -52,19 +48,14 @@ const ZOOM_MAX = 200;
 const ZOOM_DEFAULT = 100;
 
 export function App() {
-  const [selectedId, setSelectedId] = useState<string>(
-    compositions[0]?.id ?? ""
-  );
+  const [selectedId, setSelectedId] = useState<string>(compositions[0]?.id ?? "");
   const [selectedOutputIndex, setSelectedOutputIndex] = useState(0);
   const [propsJson, setPropsJson] = useState("{}");
   const [showCheckerboard, setShowCheckerboard] = useState(true);
   const [zoom, setZoom] = useState(ZOOM_DEFAULT);
   const previewRef = useRef<HTMLDivElement>(null);
 
-  const meta = useMemo(
-    () => (selectedId ? getComposition(selectedId) : null),
-    [selectedId]
-  );
+  const meta = useMemo(() => (selectedId ? getComposition(selectedId) : null), [selectedId]);
 
   const outputs = meta?.config.outputs ?? [];
   const output = outputs[selectedOutputIndex] ?? outputs[0];
@@ -85,9 +76,9 @@ export function App() {
   const toggleFullscreen = useCallback(() => {
     if (!previewRef.current) return;
     if (!document.fullscreenElement) {
-      previewRef.current.requestFullscreen?.();
+      void previewRef.current.requestFullscreen?.();
     } else {
-      document.exitFullscreen?.();
+      void document.exitFullscreen?.();
     }
   }, []);
 
@@ -116,14 +107,15 @@ export function App() {
       {/* Top bar with logo */}
       <header className="flex h-12 shrink-0 items-center border-b border-border bg-card px-4">
         <div className="flex h-8 w-[100px] shrink-0 items-center justify-center overflow-hidden">
-          {logoMeta && (() => {
-            const LogoComponent = logoMeta.component;
-            return (
-              <Composition width={100} height={32} outputName="icon">
-                <LogoComponent color="currentColor" />
-              </Composition>
-            );
-          })()}
+          {logoMeta &&
+            (() => {
+              const LogoComponent = logoMeta.component;
+              return (
+                <Composition width={100} height={32} outputName="icon">
+                  <LogoComponent color="currentColor" />
+                </Composition>
+              );
+            })()}
         </div>
       </header>
 
@@ -194,11 +186,7 @@ export function App() {
               }
             >
               {meta && output && (
-                <Composition
-                  width={output.width}
-                  height={output.height}
-                  outputName={output.name}
-                >
+                <Composition width={output.width} height={output.height} outputName={output.name}>
                   {(() => {
                     const Component = meta.component;
                     return <Component {...mergedProps} />;
@@ -264,7 +252,7 @@ export function App() {
           </Button>
           <Slider
             value={[zoom]}
-            onValueChange={([v]) => setZoom(v ?? ZOOM_DEFAULT)}
+            onValueChange={([v]) => setZoom(typeof v === "number" ? v : ZOOM_DEFAULT)}
             min={ZOOM_MIN}
             max={ZOOM_MAX}
             step={5}
@@ -285,12 +273,7 @@ export function App() {
           >
             <HiOutlineSquares2X2 className="h-4 w-4" />
           </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleFullscreen}
-            title="Full screen"
-          >
+          <Button variant="ghost" size="icon" onClick={toggleFullscreen} title="Full screen">
             <HiOutlineArrowsPointingOut className="h-4 w-4" />
           </Button>
           <Dialog>
@@ -304,13 +287,11 @@ export function App() {
               <DialogHeader>
                 <DialogTitle>Render to files</DialogTitle>
                 <DialogDescription>
-                  Run this command from the project root to render the current
-                  composition to image files:
+                  Run this command from the project root to render the current composition to image
+                  files:
                 </DialogDescription>
               </DialogHeader>
-              <pre className="rounded-md bg-muted p-4 font-mono text-sm">
-                {renderCliCommand}
-              </pre>
+              <pre className="rounded-md bg-muted p-4 font-mono text-sm">{renderCliCommand}</pre>
               <p className="text-xs text-muted-foreground">
                 Requires: <code>bunx playwright install chromium</code>
               </p>

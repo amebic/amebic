@@ -13,9 +13,9 @@ export const CompositionContext = createContext(null);
  * @throws If used outside of a Composition
  */
 export function useComposition() {
-    const ctx = useContext(CompositionContext);
-    if (!ctx) {
-        throw new Error("useComposition must be used within a Composition component");
-    }
-    return ctx;
+  const ctx = useContext(CompositionContext);
+  if (!ctx) {
+    throw new Error("useComposition must be used within a Composition component");
+  }
+  return ctx;
 }

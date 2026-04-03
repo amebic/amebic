@@ -7,8 +7,7 @@ import { createContext, useContext } from "react";
 import type { CompositionContextValue } from "./types.js";
 
 /** React context for composition metadata (outputName, width, height) */
-export const CompositionContext =
-  createContext<CompositionContextValue | null>(null);
+export const CompositionContext = createContext<CompositionContextValue | null>(null);
 
 /**
  * Hook to access the current composition context.

@@ -22,7 +22,9 @@ export const Banner: React.FC<BannerProps> = (props) => {
   const isCompact = outputName === "compact";
   const basePadding = isCompact ? 24 : 40;
   const logoSize = isCompact ? Math.min(width, height) * 0.5 : Math.min(width * 0.15, height * 0.4);
-  const titleFontSize = isCompact ? Math.min(width * 0.12, height * 0.4) : Math.min(width * 0.08, height * 0.25);
+  const titleFontSize = isCompact
+    ? Math.min(width * 0.12, height * 0.4)
+    : Math.min(width * 0.08, height * 0.25);
   const taglineFontSize = isCompact ? Math.min(width * 0.04, 14) : Math.min(width * 0.025, 18);
   const gap = isCompact ? 12 : 16;
 
@@ -74,15 +76,41 @@ export const Banner: React.FC<BannerProps> = (props) => {
               <stop offset="100%" stopColor={blobColor} stopOpacity="0.8" />
             </radialGradient>
             <filter id="letterShadow" x="-50%" y="-50%" width="200%" height="200%">
-              <feDropShadow dx="0" dy="4" stdDeviation="8" floodColor="#000000" floodOpacity="0.4" />
+              <feDropShadow
+                dx="0"
+                dy="4"
+                stdDeviation="8"
+                floodColor="#000000"
+                floodOpacity="0.4"
+              />
             </filter>
           </defs>
           <g filter="url(#gooey)" transform={`translate(${logoSize / 2}, ${logoSize / 2})`}>
             <circle cx="0" cy="0" r={blobScale} fill="url(#blobGradient)" />
-            <circle cx={-blobScale * 0.6} cy={blobScale * 0.3} r={blobScale * 0.55} fill={blobColor} />
-            <circle cx={blobScale * 0.5} cy={-blobScale * 0.4} r={blobScale * 0.5} fill={blobColor} />
-            <circle cx={blobScale * 0.3} cy={blobScale * 0.6} r={blobScale * 0.45} fill={blobColor} />
-            <circle cx={-blobScale * 0.3} cy={-blobScale * 0.5} r={blobScale * 0.4} fill={blobColor} />
+            <circle
+              cx={-blobScale * 0.6}
+              cy={blobScale * 0.3}
+              r={blobScale * 0.55}
+              fill={blobColor}
+            />
+            <circle
+              cx={blobScale * 0.5}
+              cy={-blobScale * 0.4}
+              r={blobScale * 0.5}
+              fill={blobColor}
+            />
+            <circle
+              cx={blobScale * 0.3}
+              cy={blobScale * 0.6}
+              r={blobScale * 0.45}
+              fill={blobColor}
+            />
+            <circle
+              cx={-blobScale * 0.3}
+              cy={-blobScale * 0.5}
+              r={blobScale * 0.4}
+              fill={blobColor}
+            />
             <circle cx={0} cy={blobScale * 0.8} r={blobScale * 0.35} fill={blobColor} />
           </g>
           <text
@@ -196,15 +224,41 @@ export const Banner: React.FC<BannerProps> = (props) => {
               <stop offset="100%" stopColor={blobColor} stopOpacity="0.8" />
             </radialGradient>
             <filter id="letterShadow" x="-50%" y="-50%" width="200%" height="200%">
-              <feDropShadow dx="0" dy="4" stdDeviation="8" floodColor="#000000" floodOpacity="0.4" />
+              <feDropShadow
+                dx="0"
+                dy="4"
+                stdDeviation="8"
+                floodColor="#000000"
+                floodOpacity="0.4"
+              />
             </filter>
           </defs>
           <g filter="url(#gooey)" transform={`translate(${logoSize / 2}, ${logoSize / 2})`}>
             <circle cx="0" cy="0" r={blobScale} fill="url(#blobGradient)" />
-            <circle cx={-blobScale * 0.6} cy={blobScale * 0.3} r={blobScale * 0.55} fill={blobColor} />
-            <circle cx={blobScale * 0.5} cy={-blobScale * 0.4} r={blobScale * 0.5} fill={blobColor} />
-            <circle cx={blobScale * 0.3} cy={blobScale * 0.6} r={blobScale * 0.45} fill={blobColor} />
-            <circle cx={-blobScale * 0.3} cy={-blobScale * 0.5} r={blobScale * 0.4} fill={blobColor} />
+            <circle
+              cx={-blobScale * 0.6}
+              cy={blobScale * 0.3}
+              r={blobScale * 0.55}
+              fill={blobColor}
+            />
+            <circle
+              cx={blobScale * 0.5}
+              cy={-blobScale * 0.4}
+              r={blobScale * 0.5}
+              fill={blobColor}
+            />
+            <circle
+              cx={blobScale * 0.3}
+              cy={blobScale * 0.6}
+              r={blobScale * 0.45}
+              fill={blobColor}
+            />
+            <circle
+              cx={-blobScale * 0.3}
+              cy={-blobScale * 0.5}
+              r={blobScale * 0.4}
+              fill={blobColor}
+            />
             <circle cx={0} cy={blobScale * 0.8} r={blobScale * 0.35} fill={blobColor} />
           </g>
           <text

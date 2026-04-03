@@ -9,11 +9,7 @@ import { useComposition, registerComposition } from "@amebic/core";
 
 export const MyGraphic: React.FC<{ title: string }> = (props) => {
   const { width, height, outputName } = useComposition();
-  return (
-    <div style={{ width, height, background: "#333", color: "#fff" }}>
-      {props.title}
-    </div>
-  );
+  return <div style={{ width, height, background: "#333", color: "#fff" }}>{props.title}</div>;
 };
 
 MyGraphic.displayName = "MyGraphic";
@@ -31,10 +27,10 @@ registerComposition(MyGraphic, {
 
 The `useComposition()` hook provides context about the current render:
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `width` | number | Viewport width in pixels |
-| `height` | number | Viewport height in pixels |
+| Field        | Type   | Description                                        |
+| ------------ | ------ | -------------------------------------------------- |
+| `width`      | number | Viewport width in pixels                           |
+| `height`     | number | Viewport height in pixels                          |
 | `outputName` | string | Name of current output (e.g. "mdpi", "favicon-16") |
 
 ## Output-Specific Behavior

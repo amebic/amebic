@@ -16,7 +16,10 @@ export declare function _resetRegistry(): void;
  * @param config - Composition config (defaultProps, outputs, etc.)
  * @returns The composition id (derived from component name)
  */
-export declare function registerComposition<Props extends Record<string, unknown>>(component: ComponentType<Props>, config?: CompositionConfig<Props>): string;
+export declare function registerComposition<Props extends Record<string, unknown>>(
+  component: ComponentType<Props>,
+  config?: CompositionConfig<Props>
+): string;
 /**
  * Register a set of compositions (e.g. product branding pack).
  *

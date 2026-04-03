@@ -12,9 +12,7 @@ export interface TransparentOverlayProps {
 }
 
 /** Semi-transparent overlay - rgba background with optional label */
-export const TransparentOverlay: React.FC<TransparentOverlayProps> = (
-  props
-) => {
+export const TransparentOverlay: React.FC<TransparentOverlayProps> = (props) => {
   const { width, height } = useComposition();
   const opacity = props.opacity ?? 0.5;
   const color = props.color ?? "#1e293b";
@@ -61,9 +59,5 @@ registerComposition(TransparentOverlay, {
 function hexToRgb(hex: string): string {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   if (!result) return "30, 41, 59"; // fallback slate-800
-  return [
-    parseInt(result[1], 16),
-    parseInt(result[2], 16),
-    parseInt(result[3], 16),
-  ].join(", ");
+  return [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)].join(", ");
 }

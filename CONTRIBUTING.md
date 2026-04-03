@@ -54,17 +54,17 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/). All comm
 
 ### Types
 
-| Type | Description |
-|------|-------------|
-| `feat` | New features or capabilities |
-| `fix` | Bug fixes |
-| `docs` | Documentation changes only |
-| `style` | Code style changes (formatting, semicolons, etc) |
+| Type       | Description                                         |
+| ---------- | --------------------------------------------------- |
+| `feat`     | New features or capabilities                        |
+| `fix`      | Bug fixes                                           |
+| `docs`     | Documentation changes only                          |
+| `style`    | Code style changes (formatting, semicolons, etc)    |
 | `refactor` | Code changes that neither fix bugs nor add features |
-| `perf` | Performance improvements |
-| `test` | Adding or correcting tests |
-| `chore` | Build process, dependencies, tooling changes |
-| `ci` | CI/CD configuration changes |
+| `perf`     | Performance improvements                            |
+| `test`     | Adding or correcting tests                          |
+| `chore`    | Build process, dependencies, tooling changes        |
+| `ci`       | CI/CD configuration changes                         |
 
 ### Guidelines
 
@@ -116,6 +116,7 @@ chore: upgrade Playwright to v1.40
 ### Before Submitting
 
 1. **Run quality checks:**
+
    ```bash
    bun run lint
    bun run format:check

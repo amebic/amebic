@@ -50,15 +50,15 @@ Amebic lets you define a single React document/composition and derive from it a 
 
 "Composition" comes from ReMotion and video/audio—it fits their time-based model. For still graphics, alternatives might feel more natural:
 
-| Term | Pros | Cons |
-|------|------|------|
-| **Template** | Clear: reusable structure that gets rendered. Familiar from design tools, document generation. | Might imply "fill in the blanks" more than "define the visual." |
-| **Document** | You used it in the original vision. Fits "one document, many outputs." Design tools use "document" for the top-level container. | Can collide with "document" (DOM). |
-| **Frame** | Figma/design-tool language. A frame is what you design. | "Frame" suggests animation; we're doing stills. |
-| **Asset** | The output is an asset; the source defines it. "Asset template" or "asset definition." | "Asset" often means the *output* (the PNG), not the source. |
-| **Blueprint** | Emphasizes structure, spec. | Less common in design/creative contexts. |
-| **Scene** | Film/animation. One "scene" = one visual. | Remotion-adjacent; might feel derivative. |
-| **Plate** | Print/design: a plate is what gets printed. | Obscure. |
+| Term          | Pros                                                                                                                            | Cons                                                            |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| **Template**  | Clear: reusable structure that gets rendered. Familiar from design tools, document generation.                                  | Might imply "fill in the blanks" more than "define the visual." |
+| **Document**  | You used it in the original vision. Fits "one document, many outputs." Design tools use "document" for the top-level container. | Can collide with "document" (DOM).                              |
+| **Frame**     | Figma/design-tool language. A frame is what you design.                                                                         | "Frame" suggests animation; we're doing stills.                 |
+| **Asset**     | The output is an asset; the source defines it. "Asset template" or "asset definition."                                          | "Asset" often means the _output_ (the PNG), not the source.     |
+| **Blueprint** | Emphasizes structure, spec.                                                                                                     | Less common in design/creative contexts.                        |
+| **Scene**     | Film/animation. One "scene" = one visual.                                                                                       | Remotion-adjacent; might feel derivative.                       |
+| **Plate**     | Print/design: a plate is what gets printed.                                                                                     | Obscure.                                                        |
 
 **Recommendation:** **Template** or **Document** are strong candidates. "Template" is clearest for "one structure, many rendered instances." "Document" matches your original phrasing and design-tool conventions. We'll use **composition** in this doc for now (ReMotion parity) but treat the choice as open.
 
@@ -71,12 +71,12 @@ Amebic lets you define a single React document/composition and derive from it a 
 
 ### Key Differences from ReMotion
 
-| ReMotion | Amebic |
-|----------|--------|
-| Time-based (frames, FPS) | Still-based (single frame per render) |
-| Video, GIF, sequence export | PNG, SVG, WebP, JPEG, etc. |
-| `useCurrentFrame()` | No frame—props and output name only |
-| Animation primitives | Layout, typography, effects, overlays |
+| ReMotion                    | Amebic                                |
+| --------------------------- | ------------------------------------- |
+| Time-based (frames, FPS)    | Still-based (single frame per render) |
+| Video, GIF, sequence export | PNG, SVG, WebP, JPEG, etc.            |
+| `useCurrentFrame()`         | No frame—props and output name only   |
+| Animation primitives        | Layout, typography, effects, overlays |
 
 ### Remotion vs Amebic: How Outputs Work
 
@@ -85,7 +85,7 @@ Amebic lets you define a single React document/composition and derive from it a 
 - **Register multiple compositions** in `Root.tsx` — e.g. `<Composition id="Instagram" ... />` and `<Composition id="YouTube" ... />`. Each has its own dimensions. You render them separately (or Remotion Studio lets you pick which to render).
 - **Use `--scale`** — Design at 1920×1080, render with `--scale=2` to get 4K. Same aspect ratio, different pixel density. One output per render; run multiple times for multiple scales.
 - **Override dimensions** — `--width` and `--height` flags can override composition dimensions at render time. Again: one output per render invocation.
-- **Dataset rendering** — Pass an array of props; Remotion renders N videos (or stills) from N items. But each item shares the *same* dimensions—you're varying *content*, not *output size*.
+- **Dataset rendering** — Pass an array of props; Remotion renders N videos (or stills) from N items. But each item shares the _same_ dimensions—you're varying _content_, not _output size_.
 
 So Remotion's model: **one composition → one output per render**. Multiple outputs = multiple compositions or multiple CLI runs.
 
@@ -146,11 +146,13 @@ flowchart TB
 ```
 
 **Use cases:**
+
 - **Product branding**: Logo, favicon, social cards, email header—one set per product.
 - **App icon pack**: Icon + splash + store assets—one set per app.
 - **Campaign kit**: Hero, thumbnail, share graphic—one set per campaign.
 
 **API sketch:**
+
 - `registerSet(id, { compositions: [...] })` — register a set
 - `amebic render ./sets/ProductBranding.ts` — render all compositions in the set
 - Preview UI: set selector in sidebar → pick composition → pick output
@@ -271,10 +273,14 @@ The viewport is set to the **exact output dimensions** for each render. CSS medi
 ```css
 /* Thicker stroke for legibility at small dimensions */
 @media (max-width: 64px) {
-  .icon-path { stroke-width: 2px; }
+  .icon-path {
+    stroke-width: 2px;
+  }
 }
 @media (min-width: 128px) {
-  .icon-path { stroke-width: 1px; }
+  .icon-path {
+    stroke-width: 1px;
+  }
 }
 ```
 
@@ -311,33 +317,33 @@ The composition can branch on **both** viewport dimensions (via media queries) *
 ```tsx
 // Same 48×48 output, but "favicon" gets a simplified variant
 const { outputName } = useComposition();
-return outputName === 'favicon' ? <SimplifiedIcon /> : <FullIcon />;
+return outputName === "favicon" ? <SimplifiedIcon /> : <FullIcon />;
 ```
 
 #### Output Configuration Schema (Draft)
 
 ```ts
 type OutputConfig = {
-  name: string;      // e.g. "mdpi", "1x", "favicon", "og"
+  name: string; // e.g. "mdpi", "1x", "favicon", "og"
   width: number;
   height: number;
-  format?: 'png' | 'webp' | 'jpeg' | 'svg';
+  format?: "png" | "webp" | "jpeg" | "svg";
 };
 
 // Android icon preset
 const androidOutputs: OutputConfig[] = [
-  { name: 'mdpi', width: 48, height: 48 },
-  { name: 'hdpi', width: 72, height: 72 },
-  { name: 'xhdpi', width: 96, height: 96 },
-  { name: 'xxhdpi', width: 144, height: 144 },
-  { name: 'xxxhdpi', width: 192, height: 192 },
+  { name: "mdpi", width: 48, height: 48 },
+  { name: "hdpi", width: 72, height: 72 },
+  { name: "xhdpi", width: 96, height: 96 },
+  { name: "xxhdpi", width: 144, height: 144 },
+  { name: "xxxhdpi", width: 192, height: 192 },
 ];
 
 // iOS + web favicon preset
 const faviconOutputs: OutputConfig[] = [
-  { name: 'favicon-16', width: 16, height: 16 },
-  { name: 'favicon-32', width: 32, height: 32 },
-  { name: 'apple-touch-icon', width: 180, height: 180 },
+  { name: "favicon-16", width: 16, height: 16 },
+  { name: "favicon-32", width: 32, height: 32 },
+  { name: "apple-touch-icon", width: 180, height: 180 },
 ];
 ```
 
@@ -347,12 +353,12 @@ const faviconOutputs: OutputConfig[] = [
 
 ### Rendering Strategies
 
-| Strategy | Pros | Cons |
-|----------|------|------|
+| Strategy                                    | Pros                                     | Cons                          |
+| ------------------------------------------- | ---------------------------------------- | ----------------------------- |
 | **Headless browser (Puppeteer/Playwright)** | Full DOM + CSS + fonts, accurate WYSIWYG | Heavier, slower, needs Chrome |
-| **html-to-image / dom-to-image** | Client-side, no headless | Limited CSS support, no WebGL |
-| **Server-side React → HTML → screenshot** | Same as headless, flexible | Same weight |
-| **Canvas/SVG direct** | Fast, lightweight | Manual layout, no CSS |
+| **html-to-image / dom-to-image**            | Client-side, no headless                 | Limited CSS support, no WebGL |
+| **Server-side React → HTML → screenshot**   | Same as headless, flexible               | Same weight                   |
+| **Canvas/SVG direct**                       | Fast, lightweight                        | Manual layout, no CSS         |
 
 **Recommendation:** Start with **Puppeteer or Playwright** for maximum fidelity (CSS, fonts, transparency, complex layouts). Add **html-to-image** or similar as an optional client-side path for quick previews or lightweight use cases. WebGL/Canvas effects can be rendered in an iframe or dedicated canvas, then composed.
 
@@ -404,7 +410,7 @@ sequenceDiagram
 ## Composition API (Draft)
 
 ```tsx
-import { Composition, useComposition } from 'amebic';
+import { Composition, useComposition } from "amebic";
 
 type Props = {
   title: string;
@@ -417,15 +423,17 @@ export const SocialCard: React.FC<Props> = (props) => {
 
   return (
     <Composition width={1200} height={630}>
-      <div style={{
-        width: '100%',
-        height: '100%',
-        background: props.backgroundColor ?? 'transparent',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        padding: 48,
-      }}>
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          background: props.backgroundColor ?? "transparent",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          padding: 48,
+        }}
+      >
         <h1>{props.title}</h1>
         {props.subtitle && <p>{props.subtitle}</p>}
       </div>
@@ -435,7 +443,7 @@ export const SocialCard: React.FC<Props> = (props) => {
 
 // Register for preview + render
 registerComposition(SocialCard, {
-  defaultProps: { title: 'Hello', subtitle: 'World' },
+  defaultProps: { title: "Hello", subtitle: "World" },
   defaultDimensions: { width: 1200, height: 630 },
 });
 ```
@@ -443,14 +451,14 @@ registerComposition(SocialCard, {
 #### Multi-Output Icon Example
 
 ```tsx
-import { Composition, useComposition } from 'amebic';
-import './AppIcon.css'; // contains media queries for stroke-width, etc.
+import { Composition, useComposition } from "amebic";
+import "./AppIcon.css"; // contains media queries for stroke-width, etc.
 
 export const AppIcon: React.FC = () => {
   const { width, height, outputName } = useComposition();
 
   // Optional: discrete overrides by output name (e.g. favicon gets simplified)
-  const simplified = outputName === 'favicon-16' || outputName === 'favicon-32';
+  const simplified = outputName === "favicon-16" || outputName === "favicon-32";
 
   return (
     <Composition width={width} height={height}>
@@ -467,14 +475,14 @@ export const AppIcon: React.FC = () => {
 
 registerComposition(AppIcon, {
   outputs: [
-    { name: 'favicon-16', width: 16, height: 16 },
-    { name: 'favicon-32', width: 32, height: 32 },
-    { name: 'mdpi', width: 48, height: 48 },
-    { name: 'hdpi', width: 72, height: 72 },
-    { name: 'xhdpi', width: 96, height: 96 },
-    { name: 'xxhdpi', width: 144, height: 144 },
-    { name: 'xxxhdpi', width: 192, height: 192 },
-    { name: 'apple-touch-icon', width: 180, height: 180 },
+    { name: "favicon-16", width: 16, height: 16 },
+    { name: "favicon-32", width: 32, height: 32 },
+    { name: "mdpi", width: 48, height: 48 },
+    { name: "hdpi", width: 72, height: 72 },
+    { name: "xhdpi", width: 96, height: 96 },
+    { name: "xxhdpi", width: 144, height: 144 },
+    { name: "xxxhdpi", width: 192, height: 192 },
+    { name: "apple-touch-icon", width: 180, height: 180 },
   ],
 });
 ```
