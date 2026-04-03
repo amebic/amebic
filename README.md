@@ -1,5 +1,3 @@
-# Amebic
-
 ![amebic](branding/output/Banner/readme.png)
 
 **React compositions for graphics.** One component, many outputs.

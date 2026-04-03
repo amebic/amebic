@@ -29,6 +29,7 @@ output/
 test-output/
 *.png
 !packages/templates/**/*.png
+!branding/output/**/*.png
 
 # Playwright
 playwright-report/
