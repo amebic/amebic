@@ -60,16 +60,16 @@ export function App() {
   const outputs = meta?.config.outputs ?? [];
   const output = outputs[selectedOutputIndex] ?? outputs[0];
 
-  const props = useMemo(() => {
+  const props = useMemo<Record<string, unknown>>(() => {
     try {
-      return JSON.parse(propsJson || "{}");
+      return JSON.parse(propsJson || "{}") as Record<string, unknown>;
     } catch {
       return {};
     }
   }, [propsJson]);
 
-  const mergedProps = useMemo(
-    () => ({ ...meta?.config.defaultProps, ...props }),
+  const mergedProps = useMemo<Record<string, unknown>>(
+    () => ({ ...(meta?.config.defaultProps as Record<string, unknown>), ...props }),
     [meta?.config.defaultProps, props]
   );
 
