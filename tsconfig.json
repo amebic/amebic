@@ -10,7 +10,15 @@
     "resolveJsonModule": true,
     "declaration": true,
     "declarationMap": true,
-    "noEmit": true
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./packages/preview/src/*"],
+      "@amebic/core": ["./packages/core/src"],
+      "@amebic/templates": ["./packages/templates/src"],
+      "@amebic/examples": ["./packages/examples/src"],
+      "@amebic/branding": ["./packages/branding/src"]
+    }
   },
   "exclude": ["node_modules", "dist"]
 }
